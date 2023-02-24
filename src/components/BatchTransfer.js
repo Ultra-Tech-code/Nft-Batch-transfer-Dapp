@@ -1,25 +1,28 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useContractKit } from "@celo-tools/use-contractkit";
-import { increaseCount, decreaseCount, getCount, batchSend } from "../utils/counter";
+//increaseCount, decreaseCount,
+import {  BatchSend, getCount } from "../utils/batchTransfer";
 import Loader from "./ui/Loader";
+import { addressAPI } from "../App";
 
-const Counter = ({ counterContract }) => {
+const BatchTransfer = ({ batchTransferContract }) => {
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
   const { performActions } = useContractKit();
 
   /*****************************************8 */
-  const [tokenAddress, settokenAddress] = useState("");
   const [nftId, setnftId] = useState("");
   const [receiver, setReceiver] = useState("");
   const [message, setMessage] = useState('');
+
+  const {tokenAddress, settokenAddress} = useContext(addressAPI);
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    setMessage(`Assetcontract ${tokenAddress}`  + `\n Nftid ${nftId}` + `\n to ${receiver}`);
+    setMessage(`Assetcontract ${tokenAddress} \n Nftid ${nftId} \n to ${receiver}`);
 
   };
 
@@ -33,43 +36,44 @@ const Counter = ({ counterContract }) => {
 
   useEffect(() => {
     try {
-      if (counterContract) {
+      if (batchTransferContract) {
         updateCount();
       }
     } catch (error) {
       console.log({ error });
     }
-  }, [counterContract, getCount]);
+  }, [batchTransferContract, getCount]);
 
-  const increment = async () => {
-    try {
-      setLoading(true);
-      await increaseCount(counterContract, performActions);
-      await updateCount();
-    } catch (e) {
-      console.log({ e });
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const decrement = async () => {
-    try {
-      setLoading(true);
-      await decreaseCount(counterContract, performActions);
+  // const increment = async () => {
+  //   try {
+  //     setLoading(true);
+  //     await increaseCount(batchTransferContract, performActions);
+  //     await updateCount();
+  //   } catch (e) {
+  //     console.log({ e });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-      await updateCount();
-    } catch (e) {
-      console.log({ e });
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const decrement = async () => {
+  //   try {
+  //     setLoading(true);
+  //     await decreaseCount(batchTransferContract, performActions);
+
+  //     await updateCount();
+  //   } catch (e) {
+  //     console.log({ e });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const updateCount = async () => {
     try {
       setLoading(true);
-      const value = await getCount(counterContract);
+      const value = await(batchTransferContract);
       setCount(value);
     } catch (e) {
       console.log({ e });
@@ -78,15 +82,27 @@ const Counter = ({ counterContract }) => {
     }
   };
 
+  // const updateSendStatus = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const value = await(batchTransferContract);
+  //     setCount(value);
+  //   } catch (e) {
+  //     console.log({ e });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
 
   const send = async () => {
     try {
       setLoading(true);
-      await batchSend(counterContract, performActions, tokenAddress, nftId, receiver);
+      await BatchSend(batchTransferContract, performActions, tokenAddress, nftId, receiver);
 
-      await updateInput()
-      await updateSendStatus()
-      await updateCount();
+      updateInput()
+      //await updateSendStatus()
+      //await updateCount();
     } catch (e) {
       console.log({ e });
     } finally {
@@ -100,7 +116,16 @@ const Counter = ({ counterContract }) => {
     <Card className="text-center w-50 m-auto">
       <Card.Header>Counter</Card.Header>
 
-      <form onSubmit={handleSubmit}>
+  
+      <Card.Body className="mt-4">
+        <Card.Title></Card.Title>
+        <br />
+
+        {!loading ? (
+
+          <div className="d-grid gap-2 d-md-block">
+
+<form onSubmit={handleSubmit}>
         <input type="text" id="tokenAddress" name="tokenAddress" value={tokenAddress} placeholder="asset contract addresss"
           onChange={(event) => settokenAddress(event.target.value)}
         />
@@ -128,26 +153,22 @@ const Counter = ({ counterContract }) => {
 
         <button type="submit">Confirm submission</button>
 
-        
-
         <br />
         <br />
 
         <p>{message}</p>
-
 
         <Button className="m-2" id="sendNFT" variant="dark" size="lg" onClick={send} >
               send Nft
             </Button>
       </form>
 
-      <Card.Body className="mt-4">
-        <Card.Title>Count: {count}</Card.Title>
-        <br />
+          
 
-        {!loading ? (
-          <div className="d-grid gap-2 d-md-block">
-            <Button
+
+
+
+            {/* <Button
               className="m-2"
               variant="dark"
               size="lg"
@@ -163,7 +184,7 @@ const Counter = ({ counterContract }) => {
               onClick={decrement}
             >
               Decrease Count
-            </Button>
+            </Button> */}
           </div>
         ) : (
           <Loader />
@@ -173,4 +194,4 @@ const Counter = ({ counterContract }) => {
   );
 };
 
-export default Counter;
+export default BatchTransfer;

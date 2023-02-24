@@ -31,7 +31,7 @@ function storeContractData(contract) {
   }
 
   fs.writeFileSync(
-    contractsDir + "/BatchTransfer.json",
+    contractsDir + "/BatchTransferAddress.json",
     JSON.stringify({ BatchTransfer: contract.address }, undefined, 2)
   );
 

@@ -1,18 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import { useContractKit } from "@celo-tools/use-contractkit";
-import { useCounterContract } from "./useCounterContract";
+import { useBatchTransferContract } from "./useBatchTransferContract";
 
 export const useCount = () => {
   const { address, kit } = useContractKit();
   const [count, setCount] = useState(0);
-  const counterContract = useCounterContract();
+  const batchTransferContract = useBatchTransferContract();
 
   const getCount = useCallback(async () => {
-    if (!counterContract) return;
+    if (!batchTransferContract) return;
     // fetch a connected wallet token balance
-    const value = await counterContract.methods.get().call();
+    const value = await batchTransferContract.methods.get().call();
     setCount(value);
-  }, [address, kit, counterContract]);
+  }, [address, kit, batchTransferContract]);
 
   useEffect(() => {
     if (address) getCount();

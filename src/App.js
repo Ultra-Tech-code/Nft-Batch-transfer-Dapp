@@ -1,19 +1,28 @@
-import React from "react";
 import { Container, Nav } from "react-bootstrap";
 import { useContractKit } from "@celo-tools/use-contractkit";
 import { Notification } from "./components/ui/Notifications";
 import Wallet from "./components/Wallet";
 import Cover from "./components/Cover";
-import Counter from "./components/Counter";
-import { useBalance, useCounterContract } from "./hooks";
+import React, {useState} from "react";
+import BatchTransfer from "./components/BatchTransfer";
+import { useBalance, useBatchTransferContract } from "./hooks";
 import "./App.css";
+
+export const addressAPI = React.createContext({
+
+})
 
 const App = function AppWrapper() {
   const { address, destroy, connect } = useContractKit();
   const { balance } = useBalance();
-  const counterContract = useCounterContract();
+  const batchTransferContract = useBatchTransferContract();
+  const [tokenAddress, settokenAddress] = useState("");
 
   return (
+    <addressAPI.Provider value={{tokenAddress, settokenAddress}}>
+      
+
+
     <>
       <Notification />
       {address ? (
@@ -31,7 +40,7 @@ const App = function AppWrapper() {
           </Nav>
           {/* display cover */}
           <main>
-            <Counter counterContract={counterContract} />
+            <BatchTransfer batchTransferContract={batchTransferContract} />
           </main>
         </Container>
       ) : (
@@ -43,6 +52,7 @@ const App = function AppWrapper() {
         </div>
       )}
     </>
+    </addressAPI.Provider>
   );
 };
 
