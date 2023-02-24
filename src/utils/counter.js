@@ -43,7 +43,7 @@ export const batchSend = async (counterContract, performActions, assetaddress,  
         await performActions(async (kit) => {
             const {defaultAccount} = kit;
             console.log("default ", defaultAccount)
-            await counterContract.methods.sendNft(defaultAccount, assetaddress, newId, _to).send({from: defaultAccount});
+            await counterContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId).send({from: defaultAccount});
         });
     } catch (e) {
         console.log({e});
@@ -60,7 +60,7 @@ export const getEvent = async (counterContract) => {
         console.log({e});
     }
 };
-
+const eventName = "TransferSuccessfull";
 // // The name of the event to get logs for
 // const eventName = "Transfer";
 

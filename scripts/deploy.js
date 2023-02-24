@@ -13,13 +13,13 @@ async function main() {
   // manually to make sure everything is compiled
   // await hre.run('compile');
 
-  const Counter = await hre.ethers.getContractFactory("Counter");
-  const deployed = await Counter.deploy();
+  const BatchTransfer = await hre.ethers.getContractFactory("BatchTransfer");
+  const batchTransfer = await BatchTransfer.deploy();
 
-  await deployed.deployed();
+  await batchTransfer.deployed();
 
-  console.log("Contract deployed to:", deployed.address);
-  storeContractData(deployed)
+  console.log("Contract deployed to:", batchTransfer.address);
+  storeContractData(batchTransfer)
 }
 
 function storeContractData(contract) {
@@ -31,15 +31,15 @@ function storeContractData(contract) {
   }
 
   fs.writeFileSync(
-    contractsDir + "/CounterAddress.json",
-    JSON.stringify({ Counter: contract.address }, undefined, 2)
+    contractsDir + "/BatchTransfer.json",
+    JSON.stringify({ BatchTransfer: contract.address }, undefined, 2)
   );
 
-  const CounterArtifact = artifacts.readArtifactSync("Counter");
+  const BatchTransferArtifact = artifacts.readArtifactSync("BatchTransfer");
 
   fs.writeFileSync(
-    contractsDir + "/Counter.json",
-    JSON.stringify(CounterArtifact, null, 2)
+    contractsDir + "/BatchTransfer.json",
+    JSON.stringify(BatchTransferArtifact, null, 2)
   );
 }
 

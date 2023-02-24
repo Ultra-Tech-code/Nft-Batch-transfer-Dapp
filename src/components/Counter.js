@@ -85,6 +85,7 @@ const Counter = ({ counterContract }) => {
       await batchSend(counterContract, performActions, tokenAddress, nftId, receiver);
 
       await updateInput()
+      await updateSendStatus()
       await updateCount();
     } catch (e) {
       console.log({ e });
