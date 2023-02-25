@@ -4,13 +4,12 @@ import BatchTransferAddress from "../contracts/BatchTransferAddress.json";
 
 export const BatchSend = async (batchTransferContract, performActions, assetaddress,  id, _to) => {
 
-    console.log("id ", id)
+ 
     let newId = id.split(',').map((num)=>{
         return Number(num)
-      })
-    //console.log("default ", defaultAccount)
-     console.log("newID: ", newId)
-    // console.log(assetaddress)
+      })     
+      console.log("newID: ", newId)
+
     // console.log(batchTransferContract.methods)
     // console.log(to, batchTransferContract, performActions)
     try {
