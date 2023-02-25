@@ -19,6 +19,7 @@ export const BatchSend = async (batchTransferContract, performActions, assetaddr
             console.log("default ", defaultAccount)
 
             console.log("useerc271 ", useERC721)
+            console.log("asset ", assetaddress)
 
             await  useERC721.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
             await batchTransferContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId).send({from: defaultAccount});
