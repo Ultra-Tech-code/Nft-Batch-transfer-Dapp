@@ -89,7 +89,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
 
   return (
     <Card className="text-center w-50 m-auto" id="bg-form">
-      <Card.Header class="font-weight-bold">BULK NFT TRANSFERER</Card.Header>
+      <Card.Header class="font-weight-bold text-dark">BULK NFT TRANSFERER</Card.Header>
   
       <Card.Body className="mt-4">
         <Card.Title></Card.Title>
@@ -140,8 +140,8 @@ const BatchTransfer = ({ batchTransferContract }) => {
 
         <div className="text-light">
         <p><span className="text-dark">Assetcontract: </span>{message[0]} </p>
-         <p><span className="text-dark">Nftid's: </span> {message[1]} </p>
-         <p><span className="text-dark">receiver: </span> {message[2]} </p>
+         <p><span className="text-dark">NftId's: </span> {message[1]} </p>
+         <p><span className="text-dark">Receiver: </span> {message[2]} </p>
 
         </div>
 
