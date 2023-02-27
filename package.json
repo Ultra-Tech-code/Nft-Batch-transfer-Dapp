@@ -1,4 +1,5 @@
 {
+  "homepage": "https://Ultra-tech-code.github.io/Nft-Batch-transfer-Dapp",
   "name": "celo-react-boilerplate",
   "version": "0.1.0",
   "private": true,
@@ -16,6 +17,7 @@
     "bootstrap-icons": "^1.7.1",
     "dotenv": "^10.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.3",
@@ -30,8 +32,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "compile": "npx hardhat compile",
-    "deploy": "npx hardhat run --network alfajores scripts/deploy.js",
-    "test-contract": "npx hardhat test"
+    "deploy-alfajores": "npx hardhat run --network alfajores scripts/deploy.js",
+    "test-contract": "npx hardhat test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -61,3 +65,4 @@
     "react-error-overlay": "^6.0.9"
   }
 }
+
