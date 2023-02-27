@@ -7,7 +7,7 @@ export const useContract = (abi, contractAddress) => {
 
   const getContract = useCallback(async () => {
     const kit = await getConnectedKit();
-    setContract((prev) => new kit.web3.eth.Contract(abi, contractAddress));
+    setContract(new kit.web3.eth.Contract(abi, contractAddress));
   }, [getConnectedKit, abi, contractAddress]);
 
   useEffect(() => {

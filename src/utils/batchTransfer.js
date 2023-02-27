@@ -2,25 +2,49 @@ import { useERC721 } from "../hooks/useERC721";
 import BatchTransferAddress from "../contracts/BatchTransferAddress.json";
 
 
-export const BatchSend = async (batchTransferContract, performActions, assetaddress,  id, _to) => {
+
+export function Approval(_tokenAddress, performActions) {
+    const erc721Contract = useERC721(_tokenAddress);
+    console.log("erc271 ")
+
+   async function done(){
+    try {
+        console.log("appoval is done")
+        await performActions(async (kit) => {
+            const {defaultAccount} = kit;
+            // console.log("default ", defaultAccount)
+            await  erc721Contract.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
+        });
+    } catch (e) {
+        console.log({e});
+    }
+
+}
+return done();
+     
+}
+
+
+
+export const batchSend = async (batchTransferContract, performActions, assetaddress, id, _to) => {
 
  
     let newId = id.split(',').map((num)=>{
         return Number(num)
       })     
       console.log("newID: ", newId)
+      console.log("token address", assetaddress)
 
-    // console.log(batchTransferContract.methods)
-    // console.log(to, batchTransferContract, performActions)
     try {
         await performActions(async (kit) => {
             const {defaultAccount} = kit;
-            console.log("default ", defaultAccount)
+            // console.log("default ", defaultAccount)
 
-            console.log("useerc271 ", useERC721)
-            console.log("asset ", assetaddress)
+            // console.log("useerc271 ", erc721Contract)
+            // console.log("batch ", batchTransferContract)
+            // // console.log("asset ", assetaddress)
 
-            await  useERC721.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
+            //await  erc721Contract.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
             await batchTransferContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId).send({from: defaultAccount});
         });
     } catch (e) {

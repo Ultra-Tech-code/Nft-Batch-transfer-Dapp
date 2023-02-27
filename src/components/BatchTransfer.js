@@ -2,9 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useContractKit } from "@celo-tools/use-contractkit";
 //increaseCount, decreaseCount,
-import {  BatchSend, getCount } from "../utils/batchTransfer";
+import {  batchSend, getCount, Approval } from "../utils/batchTransfer";
 import Loader from "./ui/Loader";
 import { addressAPI } from "../App";
+import { useERC721 } from "../hooks/useERC721";
+import BatchTransferAddress from "../contracts/BatchTransferAddress.json";
 
 const BatchTransfer = ({ batchTransferContract }) => {
   const [loading, setLoading] = useState(false);
@@ -93,12 +95,34 @@ const BatchTransfer = ({ batchTransferContract }) => {
   //     setLoading(false);
   //   }
   // };
+  const contraxr721 =  useERC721(tokenAddress)
+
+  const approve = async () => {
+
+    try {
+      console.log("appoval is done")
+      await performActions(async (kit) => {
+          const {defaultAccount} = kit;
+          // console.log("default ", defaultAccount)
+          await  contraxr721.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
+      });
+  } catch (e) {
+      console.log({e});
+  }
 
 
-  const send = async () => {
+  }
+
+  const send = async () => {   
+
     try {
       setLoading(true);
-      await BatchSend(batchTransferContract, performActions, tokenAddress, nftId, receiver);
+
+     // await contraxr721.method
+
+      await approve(tokenAddress, performActions)
+
+      await batchSend(batchTransferContract, performActions, tokenAddress, nftId, receiver);
 
       updateInput()
       //await updateSendStatus()

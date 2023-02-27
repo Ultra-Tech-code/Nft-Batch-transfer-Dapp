@@ -20,8 +20,6 @@ const App = function AppWrapper() {
 
   return (
     <addressAPI.Provider value={{tokenAddress, settokenAddress}}>
-      
-
 
     <>
       <Notification />
