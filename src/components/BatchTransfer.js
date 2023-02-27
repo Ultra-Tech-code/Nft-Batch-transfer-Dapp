@@ -79,6 +79,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
       //await updateSendStatus(receiver)
     } catch (e) {
       console.log({ e });
+      updateInput()
     } finally {
       setLoading(false);
     }
