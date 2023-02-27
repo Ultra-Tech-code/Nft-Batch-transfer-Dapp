@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useContractKit } from "@celo-tools/use-contractkit";
-//increaseCount, decreaseCount,
-import {  batchSend, getCount, Approval } from "../utils/batchTransfer";
+import {  batchSend, getEvent } from "../utils/batchTransfer";
 import Loader from "./ui/Loader";
 import { addressAPI } from "../App";
 import { useERC721 } from "../hooks/useERC721";
@@ -10,20 +9,18 @@ import BatchTransferAddress from "../contracts/BatchTransferAddress.json";
 
 const BatchTransfer = ({ batchTransferContract }) => {
   const [loading, setLoading] = useState(false);
-  const [count, setCount] = useState(0);
+  //const [count, setCount] = useState(0);
+  const [status, setStatus] = useState("");
   const { performActions } = useContractKit();
-
-  /*****************************************8 */
   const [nftId, setnftId] = useState("");
   const [receiver, setReceiver] = useState("");
   const [message, setMessage] = useState('');
-
   const {tokenAddress, settokenAddress} = useContext(addressAPI);
 
+  const erc271Contract=  useERC721(tokenAddress)
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     setMessage(`Assetcontract ${tokenAddress} \n Nftid ${nftId} \n to ${receiver}`);
 
   };
@@ -36,55 +33,18 @@ const BatchTransfer = ({ batchTransferContract }) => {
 
   /*********************************88 */
 
-  useEffect(() => {
-    try {
-      if (batchTransferContract) {
-        updateCount();
-      }
-    } catch (error) {
-      console.log({ error });
-    }
-  }, [batchTransferContract, getCount]);
-
-
-  // const increment = async () => {
+  // useEffect(() => {
   //   try {
-  //     setLoading(true);
-  //     await increaseCount(batchTransferContract, performActions);
-  //     await updateCount();
-  //   } catch (e) {
-  //     console.log({ e });
-  //   } finally {
-  //     setLoading(false);
+  //     if (batchTransferContract) {
+  //       updateCount();
+  //     }
+  //   } catch (error) {
+  //     console.log({ error });
   //   }
-  // };
+  // }, [batchTransferContract, getCount]);
 
-  // const decrement = async () => {
-  //   try {
-  //     setLoading(true);
-  //     await decreaseCount(batchTransferContract, performActions);
 
-  //     await updateCount();
-  //   } catch (e) {
-  //     console.log({ e });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  const updateCount = async () => {
-    try {
-      setLoading(true);
-      const value = await(batchTransferContract);
-      setCount(value);
-    } catch (e) {
-      console.log({ e });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // const updateSendStatus = async () => {
+  // const updateCount = async () => {
   //   try {
   //     setLoading(true);
   //     const value = await(batchTransferContract);
@@ -95,16 +55,26 @@ const BatchTransfer = ({ batchTransferContract }) => {
   //     setLoading(false);
   //   }
   // };
-  const contraxr721 =  useERC721(tokenAddress)
+
+  const updateSendStatus = async (_receiver) => {
+    try {
+      setLoading(true);
+      const value = await(getEvent(batchTransferContract, performActions, _receiver));
+      setStatus(value);
+    } catch (e) {
+      console.log({ e });
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const approve = async () => {
-
     try {
       console.log("appoval is done")
       await performActions(async (kit) => {
           const {defaultAccount} = kit;
-          // console.log("default ", defaultAccount)
-          await  contraxr721.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
+          await  erc271Contract.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
       });
   } catch (e) {
       console.log({e});
@@ -114,18 +84,15 @@ const BatchTransfer = ({ batchTransferContract }) => {
   }
 
   const send = async () => {   
-
     try {
       setLoading(true);
-
-     // await contraxr721.method
 
       await approve(tokenAddress, performActions)
 
       await batchSend(batchTransferContract, performActions, tokenAddress, nftId, receiver);
 
       updateInput()
-      //await updateSendStatus()
+      await updateSendStatus(receiver)
       //await updateCount();
     } catch (e) {
       console.log({ e });
@@ -138,8 +105,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
 
   return (
     <Card className="text-center w-50 m-auto">
-      <Card.Header>Counter</Card.Header>
-
+      <Card.Header>Bulk Nft Transferer</Card.Header>
   
       <Card.Body className="mt-4">
         <Card.Title></Card.Title>
@@ -187,28 +153,8 @@ const BatchTransfer = ({ batchTransferContract }) => {
             </Button>
       </form>
 
-          
+      <p>{status}</p>
 
-
-
-
-            {/* <Button
-              className="m-2"
-              variant="dark"
-              size="lg"
-              onClick={increment}
-            >
-              Increase Count
-            </Button>
-            <Button
-              className="m-2"
-              variant="outline-dark"
-              disabled={count < 1}
-              size="lg"
-              onClick={decrement}
-            >
-              Decrease Count
-            </Button> */}
           </div>
         ) : (
           <Loader />
