@@ -12,7 +12,7 @@ export const batchSend = async (batchTransferContract, performActions, assetaddr
         await performActions(async (kit) => {
             const {defaultAccount} = kit;
             await batchTransferContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId).send({from: defaultAccount});
-            toast(<NotificationSuccess text="NFT Sent...." />);
+            toast(<NotificationSuccess text="NFT's Sent...." />);
         });
     } catch (e) {
         toast(<NotificationError text="NFT's not Sent...." />);

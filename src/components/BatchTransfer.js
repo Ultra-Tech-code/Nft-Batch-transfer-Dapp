@@ -15,21 +15,21 @@ const BatchTransfer = ({ batchTransferContract }) => {
   const { performActions } = useContractKit();
   const [nftId, setnftId] = useState("");
   const [receiver, setReceiver] = useState("");
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState([]);
   const {tokenAddress, settokenAddress} = useContext(addressAPI);
 
   const erc271Contract=  useERC721(tokenAddress)
 
   const handleSubmit = (event) => {
     event.preventDefault();
+          
+  //   `
+  //   <p>Assetcontract: ${tokenAddress} </p>
+  //   <p>Nftid: ${nftId} </p>
+  //   <p>receiver: ${receiver} </p>
+  // `
    // Assetcontract ${tokenAddress} \n Nftid ${nftId} \n to ${receiver}
-    setMessage(
-        `
-      <p>Assetcontract: ${tokenAddress} </p>
-      <p>Nftid: ${nftId} </p>
-      <p>receiver: ${receiver} </p>
-    `
-    );
+    setMessage([`${tokenAddress}`,`${nftId}`, `${receiver}`]);
 
   };
 
@@ -55,14 +55,13 @@ const BatchTransfer = ({ batchTransferContract }) => {
 
   const approve = async () => {
     try {
-      console.log("appoval is done")
       await performActions(async (kit) => {
           const {defaultAccount} = kit;
-          console.log("batchTransferContract ", batchTransferContract.events)
-          console.log("batchTransferContract. methid", batchTransferContract.methods)
           await  erc271Contract.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
+          toast(<NotificationSuccess text="Approval Successfull...." />);
       });
   } catch (e) {
+    toast(<NotificationError text="OOps, Approval Failed." />);
       console.log({e});
   }
 
@@ -80,7 +79,6 @@ const BatchTransfer = ({ batchTransferContract }) => {
       //await updateSendStatus(receiver)
     } catch (e) {
       console.log({ e });
-      toast(<NotificationError text="OOps, Unable to send." />);
     } finally {
       setLoading(false);
     }
@@ -101,33 +99,33 @@ const BatchTransfer = ({ batchTransferContract }) => {
           <div className="d-grid gap-2 d-md-block">
 
 <form onSubmit={handleSubmit}>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="tokenAddress">&#129297;</span>
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="tokenAddress">&#129297;</span>
           </div>
-          <input type="text" id="tokenAddress" name="tokenAddress" class="form-control" value={tokenAddress} placeholder="asset contract addresss"
+          <input type="text" id="tokenAddress" name="tokenAddress" className="form-control" value={tokenAddress} placeholder="asset contract addresss"
           onChange={(event) => settokenAddress(event.target.value)} aria-describedby="tokenAddress"
         />
         </div>
 
         <br />
 
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="nftId">&#129488;</span>
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="nftId">&#129488;</span>
           </div>
-          <input type="text" id="nftId" name="lastName" class="form-control" value={nftId} placeholder="Enter nft id's "
+          <input type="text" id="nftId" name="lastName" className="form-control" value={nftId} placeholder="Enter nft id's "
           onChange={(event) => { setnftId(event.target.value); }} aria-describedby="nftId"
         />
         </div>
 
         <br />
 
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="receiver">&#128525;</span>
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="receiver">&#128525;</span>
           </div>
-          <input type="text" id="receiver" name="Receiver" class="form-control" value={receiver} placeholder="Enter receiver address"
+          <input type="text" id="receiver" name="Receiver" className="form-control" value={receiver} placeholder="Enter receiver address"
           onChange={(event) => { setReceiver(event.target.value);}} aria-describedby="receiver"
         />
         </div>
@@ -139,7 +137,12 @@ const BatchTransfer = ({ batchTransferContract }) => {
         <br />
         <br />
 
-        <p class="text-light">{message}</p>
+        <div className="text-light">
+        <p><span className="text-dark">Assetcontract: </span>{message[0]} </p>
+         <p><span className="text-dark">Nftid's: </span> {message[1]} </p>
+         <p><span className="text-dark">receiver: </span> {message[2]} </p>
+
+        </div>
 
         <Button className="m-2" id="sendNFT"  size="lg" onClick={send} >
               send Nft
