@@ -1,30 +1,3 @@
-import { useERC721 } from "../hooks/useERC721";
-import BatchTransferAddress from "../contracts/BatchTransferAddress.json";
-
-
-
-export function Approval(_tokenAddress, performActions) {
-    const erc721Contract = useERC721(_tokenAddress);
-    console.log("erc271 ")
-
-   async function done(){
-    try {
-        console.log("appoval is done")
-        await performActions(async (kit) => {
-            const {defaultAccount} = kit;
-            // console.log("default ", defaultAccount)
-            await  erc721Contract.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
-        });
-    } catch (e) {
-        console.log({e});
-    }
-
-}
-return done();
-     
-}
-
-
 
 export const batchSend = async (batchTransferContract, performActions, assetaddress, id, _to) => {
 
@@ -38,13 +11,6 @@ export const batchSend = async (batchTransferContract, performActions, assetaddr
     try {
         await performActions(async (kit) => {
             const {defaultAccount} = kit;
-            // console.log("default ", defaultAccount)
-
-            // console.log("useerc271 ", erc721Contract)
-            // console.log("batch ", batchTransferContract)
-            // // console.log("asset ", assetaddress)
-
-            //await  erc721Contract.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
             await batchTransferContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId).send({from: defaultAccount});
         });
     } catch (e) {
