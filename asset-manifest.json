@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Nft-Batch-transfer-Dapp/static/css/main.8ec920d6.chunk.css",
-    "main.js": "/Nft-Batch-transfer-Dapp/static/js/main.4061b13c.chunk.js",
-    "main.js.map": "/Nft-Batch-transfer-Dapp/static/js/main.4061b13c.chunk.js.map",
+    "main.js": "/Nft-Batch-transfer-Dapp/static/js/main.672a89be.chunk.js",
+    "main.js.map": "/Nft-Batch-transfer-Dapp/static/js/main.672a89be.chunk.js.map",
     "runtime-main.js": "/Nft-Batch-transfer-Dapp/static/js/runtime-main.ff391767.js",
     "runtime-main.js.map": "/Nft-Batch-transfer-Dapp/static/js/runtime-main.ff391767.js.map",
     "static/css/2.e1c75b67.chunk.css": "/Nft-Batch-transfer-Dapp/static/css/2.e1c75b67.chunk.css",
@@ -22,6 +22,6 @@
     "static/css/2.e1c75b67.chunk.css",
     "static/js/2.dda19e35.chunk.js",
     "static/css/main.8ec920d6.chunk.css",
-    "static/js/main.4061b13c.chunk.js"
+    "static/js/main.672a89be.chunk.js"
   ]
 }
