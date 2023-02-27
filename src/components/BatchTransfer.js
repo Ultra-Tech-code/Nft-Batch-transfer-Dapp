@@ -115,7 +115,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
           <div className="input-group-prepend">
             <span className="input-group-text" id="nftId">&#129488;</span>
           </div>
-          <input type="text" id="nftId" name="lastName" className="form-control" value={nftId} placeholder="Enter nft id's "
+          <input type="text" id="nftId" name="lastName" className="form-control" value={nftId} placeholder="Enter nft id's 0, 1, 2"
           onChange={(event) => { setnftId(event.target.value); }} aria-describedby="nftId"
         />
         </div>
