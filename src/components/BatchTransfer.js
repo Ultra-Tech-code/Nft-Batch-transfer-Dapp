@@ -15,6 +15,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
   const { performActions } = useContractKit();
   const [nftId, setnftId] = useState("");
   const [receiver, setReceiver] = useState("");
+  const [totalID, settotalID] = useState("");
   const [message, setMessage] = useState([]);
   const {tokenAddress, settokenAddress} = useContext(addressAPI);
 
@@ -37,6 +38,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
     settokenAddress("");
     setnftId("");
     setReceiver("");
+    settotalID("");
   }
 
   const updateSendStatus = async (_receiver) => {
@@ -74,7 +76,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
       
       await approve(tokenAddress, performActions)
 
-      await batchSend(batchTransferContract, performActions, tokenAddress, nftId, receiver);
+      await batchSend(batchTransferContract, performActions, tokenAddress, nftId, receiver, totalID);
       updateInput()
       //await updateSendStatus(receiver)
     } catch (e) {
@@ -89,7 +91,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
 
   return (
     <Card className="text-center w-50 m-auto" id="bg-form">
-      <Card.Header class="font-weight-bold text-dark">BULK NFT TRANSFERER</Card.Header>
+      <Card.Header className="font-weight-bold text-dark">BULK NFT TRANSFERER</Card.Header>
   
       <Card.Body className="mt-4">
         <Card.Title></Card.Title>
@@ -102,7 +104,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
 <form onSubmit={handleSubmit}>
         <div className="input-group mb-3">
           <div className="input-group-prepend">
-            <span className="input-group-text" id="tokenAddress">&#129297;</span>
+            <span className="input-group-text" id="tokenAddress">&#x1F47E;</span>
           </div>
           <input type="text" id="tokenAddress" name="tokenAddress" className="form-control" value={tokenAddress} placeholder="asset contract addresss"
           onChange={(event) => settokenAddress(event.target.value)} aria-describedby="tokenAddress"
@@ -113,7 +115,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
 
         <div className="input-group mb-3">
           <div className="input-group-prepend">
-            <span className="input-group-text" id="nftId">&#129488;</span>
+            <span className="input-group-text" id="nftId">&#x1F575;</span>
           </div>
           <input type="text" id="nftId" name="lastName" className="form-control" value={nftId} placeholder="Enter nft id's 0, 1, 2"
           onChange={(event) => { setnftId(event.target.value); }} aria-describedby="nftId"
@@ -121,16 +123,25 @@ const BatchTransfer = ({ batchTransferContract }) => {
         </div>
 
         <br />
-
         <div className="input-group mb-3">
           <div className="input-group-prepend">
-            <span className="input-group-text" id="receiver">&#128525;</span>
+            <span className="input-group-text" id="receiver">&#x1F91D;</span>
           </div>
           <input type="text" id="receiver" name="Receiver" className="form-control" value={receiver} placeholder="Enter receiver address"
           onChange={(event) => { setReceiver(event.target.value);}} aria-describedby="receiver"
         />
         </div>
+
         <br />
+
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="totalID">&#x1F680;</span>
+          </div>
+          <input type="text" id="totalID" name="TotalID" className="form-control" value={totalID} placeholder="Enter the totalID"
+          onChange={(event) => { settotalID(event.target.value);}} aria-describedby="totalID"
+        />
+        </div>
 
       
         <Button className="m-2"  variant="dark" size="lg" type="submit">Confirm submission</Button>

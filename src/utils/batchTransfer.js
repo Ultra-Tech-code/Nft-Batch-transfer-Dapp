@@ -4,14 +4,14 @@ import{ NotificationSuccess, NotificationError } from "../components/ui/Notifica
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
 
-export const batchSend = async (batchTransferContract, performActions, assetaddress, id, _to) => {
+export const batchSend = async (batchTransferContract, performActions, assetaddress, id, _to, _totalID) => {
     let newId = id.split(',').map((num)=>{
         return Number(num)
       })     
     try {
         await performActions(async (kit) => {
             const {defaultAccount} = kit;
-            await batchTransferContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId).send({from: defaultAccount});
+            await batchTransferContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId, _totalID).send({from: defaultAccount});
             toast(<NotificationSuccess text="NFT's Sent...." />);
         });
     } catch (e) {

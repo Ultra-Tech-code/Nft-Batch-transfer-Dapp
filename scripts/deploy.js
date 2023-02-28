@@ -43,7 +43,7 @@ function storeContractData(contract) {
   );
 }
 
-//deployed to - 0x3D98a2f7dFdAB3c09A28e95f5e49f26be87f7f95
+//deployed to - 0xEa9C19564186958FB6De241c049c3727a6a40c28
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main()
