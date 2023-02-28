@@ -15,18 +15,16 @@ contract BatchTransfer is Ownable {
         * @param _collection the address of the NFT smart contract
         * @param _tokenIds an array of tokenIds to be transferred 
         * @param _totalId lenght of tokena to be transferred
-     */
-    function bulkTransfer(address _from, IERC721 _collection, address _to, uint256[] memory _tokenIds, uint256 _totalId) external {
-        require(_totalId > 0, "Limit must be greater than 0");
-        require(_to != address(0), "invalid _to address");
+     */    function bulkTransfer(address _from, IERC721 _collection, address _to, uint256[] memory _tokenIds, uint256 _totalId) external {
+        require(_to != address(0));
         require(_from != address(0));
-
-        uint _IdsLength = _tokenIds.length;
-
-        for (uint256 i; i < _IdsLength; i++) {
-
-            //skip is user is not the owner of the tokenid
-            if(_collection.getApproved(_tokenIds[i]) != address(this)){
+        uint totalIds = _tokenIds.length;
+        require(totalIds == _totalId, "total id passed in is less/greater than _totalId");
+        
+        for (uint256 i = 0; i < totalIds; i++) {
+             //skip if user is not the owner of the tokenid
+            if(_collection.ownerOf(_tokenIds[i]) != _from){
+                //notApprovedId[i] = _tokenIds[i];
                 continue;
             }
             _collection.safeTransferFrom(_from, _to, _tokenIds[i]);
@@ -35,21 +33,19 @@ contract BatchTransfer is Ownable {
         emit TransferSuccessfull(_from, _collection, _to);
     }
 
-    function getAlltokenIDOwned(address _contract, address wallet, uint256 bal) external view returns (uint256[] memory) {
-        uint256[] memory ids = new uint256[](bal);
-        for (uint256 i = 0; i < bal; i++) {
-            ids[i] = IERC721Enumerable(_contract).tokenOfOwnerByIndex(wallet, i);
+
+       /**
+        * @notice allows the contract owner to send out any any trapped token in the contract
+        * @param _to receiver of the NFTs
+        * @param _collection the address of the NFT smart contract
+        * @param _tokenIds an array of tokenIds to be transferred 
+     */
+
+    function withdraw(IERC721 _collection, address _to, uint256[] memory _tokenIds) external onlyOwner {
+        uint _IdsLength = _tokenIds.length;
+
+        for (uint256 i; i < _IdsLength; i++) {
+            _collection.safeTransferFrom(address(this), _to, _tokenIds[i]);
         }
-        return ids;
-        
     }
-
-
-        function withdraw(IERC721 _collection, address _to, uint256[] memory _tokenIds) external onlyOwner {
-            uint _IdsLength = _tokenIds.length;
-
-            for (uint256 i; i < _IdsLength; i++) {
-                _collection.safeTransferFrom(address(this), _to, _tokenIds[i]);
-            }
-        }
 }
