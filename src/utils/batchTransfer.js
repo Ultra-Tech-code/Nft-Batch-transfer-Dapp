@@ -11,11 +11,25 @@ export const batchSend = async (batchTransferContract, performActions, assetaddr
     try {
         await performActions(async (kit) => {
             const {defaultAccount} = kit;
-            await batchTransferContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId, _totalID).send({from: defaultAccount});
+            const value = await batchTransferContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId, _totalID).send({from: defaultAccount});
+            if(value === 0){
+                toast(<NotificationSuccess text="All NFT's Sent...." />);
+            }
             toast(<NotificationSuccess text="NFT's Sent...." />);
+            toast(<NotificationError text={`NFT's with this ID ${value} not sent, kindly verify that you own it....`} autoClose={10000} />);
+            
         });
     } catch (e) {
         toast(<NotificationError text="NFT's not Sent...." />);
+        console.log({e});
+    }
+};
+
+export const getTotalTransfer = async (batchTransferContract) => {
+    try {
+        const value =  await batchTransferContract.methods.getallCollection().call();
+        return value.length;
+    } catch (e) {
         console.log({e});
     }
 };
@@ -57,14 +71,4 @@ export const getEvent = async (batchTransferContract, performActions, _to ) => {
     }
 };
 
-
-export const getCount = async (batchTransferContract) => {
-    try {
-
-        const value =  await batchTransferContract.methods.get().call();
-        return value
-    } catch (e) {
-        console.log({e});
-    }
-};
 

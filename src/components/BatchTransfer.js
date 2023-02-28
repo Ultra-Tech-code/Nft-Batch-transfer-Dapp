@@ -1,13 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Card, Button } from "react-bootstrap";
 import { useContractKit } from "@celo-tools/use-contractkit";
-import {  batchSend, getEvent } from "../utils/batchTransfer";
+import {  batchSend, getEvent, getTotalTransfer } from "../utils/batchTransfer";
 import Loader from "./ui/Loader";
 import { addressAPI } from "../App";
 import { useERC721 } from "../hooks/useERC721";
 import BatchTransferAddress from "../contracts/BatchTransferAddress.json";
-import{ NotificationSuccess, NotificationError } from "./ui/Notifications"
+import{ NotificationInfo, NotificationSuccess, NotificationError } from "./ui/Notifications"
+import 'react-toastify/dist/ReactToastify.css';
 
 const BatchTransfer = ({ batchTransferContract }) => {
   const [loading, setLoading] = useState(false);
@@ -17,19 +18,23 @@ const BatchTransfer = ({ batchTransferContract }) => {
   const [receiver, setReceiver] = useState("");
   const [totalID, settotalID] = useState("");
   const [message, setMessage] = useState([]);
-  const {tokenAddress, settokenAddress} = useContext(addressAPI);
+  const {tokenAddress, settokenAddress} = useContext(addressAPI); 
 
   const erc271Contract=  useERC721(tokenAddress)
 
+useEffect(() => {
+  try { 
+      if (batchTransferContract ) {
+        getTotal();
+      }
+  } catch (error) {
+      console.log({error});
+  }
+}, [batchTransferContract, getTotalTransfer]);
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
-          
-  //   `
-  //   <p>Assetcontract: ${tokenAddress} </p>
-  //   <p>Nftid: ${nftId} </p>
-  //   <p>receiver: ${receiver} </p>
-  // `
-   // Assetcontract ${tokenAddress} \n Nftid ${nftId} \n to ${receiver}
     setMessage([`${tokenAddress}`,`${nftId}`, `${receiver}`]);
 
   };
@@ -44,7 +49,7 @@ const BatchTransfer = ({ batchTransferContract }) => {
   const updateSendStatus = async (_receiver) => {
     try {
       setLoading(true);
-      const value = await(getEvent(batchTransferContract, performActions, _receiver));
+      const value = await getEvent(batchTransferContract, performActions, _receiver);
       console.log("value ", value)
       setStatus(value);
     } catch (e) {
@@ -82,6 +87,19 @@ const BatchTransfer = ({ batchTransferContract }) => {
     } catch (e) {
       console.log({ e });
       updateInput()
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getTotal = async () => {   
+    try {
+      setLoading(true);  
+      const value = await getTotalTransfer(batchTransferContract)
+    toast(<NotificationInfo  text= {`Proceessed ${value} transaction, when processing thousands of nft, wallet might throw gas estimation error, kindly click "I want to proceed anyway"`}/>
+    ,{position: toast.POSITION.TOP_LEFT}); 
+    } catch (e) {
+      console.log({ e });
     } finally {
       setLoading(false);
     }

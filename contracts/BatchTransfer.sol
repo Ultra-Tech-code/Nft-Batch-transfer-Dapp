@@ -14,7 +14,7 @@ contract BatchTransfer is Ownable {
     //id's Of Nft that was not sent in a transaction
     uint256[] notOwnerId;
     /// all collection that the contract has processed
-    IERC721[] public allCollection;
+    IERC721[] allCollection;
 
     /**
         * @notice allows batch transfer of multiple NFTs
@@ -32,7 +32,7 @@ contract BatchTransfer is Ownable {
         
         for (uint256 i; i < totalIds; i++) {
              //skip if user is not the owner of the tokenid
-            if(_collection.ownerOf(_tokenIds[i]) != _from){
+            if(_collection.ownerOf(_tokenIds[i]) != _from || _collection.ownerOf(_tokenIds[i]) != _to){
                 notOwnerId.push(_tokenIds[i]);
                 continue;
             }
@@ -58,4 +58,7 @@ contract BatchTransfer is Ownable {
         }
     }
 
+    function getallCollection() external view returns(IERC721[] memory){
+        return allCollection;
+    }
 }

@@ -8,6 +8,7 @@ import BatchTransfer from "./components/BatchTransfer";
 import { useBalance, useBatchTransferContract } from "./hooks";
 import "./App.css";
 
+
 export const addressAPI = React.createContext({
 
 })
@@ -23,7 +24,7 @@ const App = function AppWrapper() {
 
     <>
       <Notification />
-      {address ? (
+      {address ? ( 
         <Container fluid="md">
           <Nav className="justify-content-end pt-3 pb-5">
             <Nav.Item>
