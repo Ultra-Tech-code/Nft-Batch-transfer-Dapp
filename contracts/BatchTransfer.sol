@@ -2,13 +2,7 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-
-
-interface IERC721 {
-    function safeTransferFrom(address _from, address _to, uint256 _tokenId) external;
-    function getApproved(uint256 _tokenId) external view returns (address);
-
-}
+import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol" ;
 
 contract BatchTransfer is Ownable {
 
@@ -24,12 +18,14 @@ contract BatchTransfer is Ownable {
      */
     function bulkTransfer(address _from, IERC721 _collection, address _to, uint256[] memory _tokenIds, uint256 _totalId) external {
         require(_totalId > 0, "Limit must be greater than 0");
-        require(_to != address(0), "invalid to address");
+        require(_to != address(0), "invalid _to address");
         require(_from != address(0));
 
         uint _IdsLength = _tokenIds.length;
 
-        for (uint256 i = 0; i < _IdsLength; i++) {
+        for (uint256 i; i < _IdsLength; i++) {
+
+            //skip is user is not the owner of the tokenid
             if(_collection.getApproved(_tokenIds[i]) != address(this)){
                 continue;
             }
@@ -39,13 +35,20 @@ contract BatchTransfer is Ownable {
         emit TransferSuccessfull(_from, _collection, _to);
     }
 
-    function getAlltokenID() external {
+    function getAlltokenIDOwned(address _contract, address wallet, uint256 bal) external view returns (uint256[] memory) {
+        uint256[] memory ids = new uint256[](bal);
+        for (uint256 i = 0; i < bal; i++) {
+            ids[i] = IERC721Enumerable(_contract).tokenOfOwnerByIndex(wallet, i);
+        }
+        return ids;
         
     }
 
 
         function withdraw(IERC721 _collection, address _to, uint256[] memory _tokenIds) external onlyOwner {
-            for (uint256 i = 0; i < _tokenIds.length; i++) {
+            uint _IdsLength = _tokenIds.length;
+
+            for (uint256 i; i < _IdsLength; i++) {
                 _collection.safeTransferFrom(address(this), _to, _tokenIds[i]);
             }
         }
