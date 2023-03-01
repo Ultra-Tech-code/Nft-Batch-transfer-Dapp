@@ -11,8 +11,7 @@ interface IERC721 {
 contract BatchTransfer is Ownable {
 
     event TransferSuccessfull(address indexed _from, IERC721 indexed _collection, address indexed _to);
-    //id's Of Nft that was not sent in a transaction
-    uint256[] notOwnerId;
+
     /// all collection that the contract has processed
     IERC721[] allCollection;
 
@@ -24,16 +23,23 @@ contract BatchTransfer is Ownable {
         * @param _tokenIds an array of tokenIds to be transferred 
         * @param _totalId lenght of tokena to be transferred
      */    
-    function bulkTransfer(address _from, IERC721 _collection, address _to, uint256[] memory _tokenIds, uint256 _totalId) external returns(uint256[] memory){
+    function bulkTransfer(address _from, IERC721 _collection, address _to, uint256[] memory _tokenIds, uint256 _totalId) external returns(uint256, uint256[] memory){
         require(_to != address(0));
         require(_from != address(0));
         uint totalIds = _tokenIds.length;
         require(totalIds == _totalId, "total id less/greater than _idLenght");
+
+        //id's Of Nft that was not sent in a transaction
+        uint[] memory notOwnerId = new uint[](_totalId);
+        uint notTransferredCount = 0;
         
         for (uint256 i; i < totalIds; i++) {
+
              //skip if user is not the owner of the tokenid
-            if(_collection.ownerOf(_tokenIds[i]) != _from || _collection.ownerOf(_tokenIds[i]) != _to){
-                notOwnerId.push(_tokenIds[i]);
+            if(_collection.ownerOf(_tokenIds[i]) != _from){
+                notOwnerId[notTransferredCount] = _tokenIds[i];
+                notTransferredCount++;
+
                 continue;
             }
             _collection.safeTransferFrom(_from, _to, _tokenIds[i]);
@@ -41,7 +47,7 @@ contract BatchTransfer is Ownable {
         allCollection.push(_collection);
 
         emit TransferSuccessfull(_from, _collection, _to);
-        return notOwnerId;
+        return(notTransferredCount , notOwnerId) ;
     }
 
        /**
@@ -58,7 +64,4 @@ contract BatchTransfer is Ownable {
         }
     }
 
-    function getallCollection() external view returns(IERC721[] memory){
-        return allCollection;
-    }
 }

@@ -12,11 +12,25 @@ export const batchSend = async (batchTransferContract, performActions, assetaddr
         await performActions(async (kit) => {
             const {defaultAccount} = kit;
             const value = await batchTransferContract.methods.bulkTransfer(defaultAccount, assetaddress, _to, newId, _totalID).send({from: defaultAccount});
-            if(value === 0){
+            if(value.length === 0){
                 toast(<NotificationSuccess text="All NFT's Sent...." />);
             }
-            toast(<NotificationSuccess text="NFT's Sent...." />);
-            toast(<NotificationError text={`NFT's with this ID ${value} not sent, kindly verify that you own it....`} autoClose={10000} />);
+
+
+            const notTransferredCount = value[0];
+            const _totalId = value[1];
+
+            if (notTransferredCount < _totalId) {
+                const finalNotOwnerId = [](notTransferredCount);
+                for (let index = 0; index < notTransferredCount; index++) {
+                    finalNotOwnerId[index] = _totalId[index];
+                }
+                toast(<NotificationSuccess text="NFT's Sent...." />);
+                toast(<NotificationError text={`NFT's with this ID ${finalNotOwnerId} not sent, kindly verify that you own it....`} autoClose={10000} />);
+            } else {
+                toast(<NotificationSuccess text="NFT's Sent...." />);
+                toast(<NotificationError text={`NFT's with this ID ${_totalId} not sent, kindly verify that you own it....`} autoClose={10000} />);    
+            }
             
         });
     } catch (e) {
