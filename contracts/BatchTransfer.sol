@@ -34,7 +34,6 @@ contract BatchTransfer is Ownable {
         uint notTransferredCount = 0;
         
         for (uint256 i; i < totalIds; i++) {
-
              //skip if user is not the owner of the tokenid
             if(_collection.ownerOf(_tokenIds[i]) != _from){
                 notOwnerId[notTransferredCount] = _tokenIds[i];
@@ -42,8 +41,10 @@ contract BatchTransfer is Ownable {
 
                 continue;
             }
+
             _collection.safeTransferFrom(_from, _to, _tokenIds[i]);
         }
+        
         allCollection.push(_collection);
 
         emit TransferSuccessfull(_from, _collection, _to);
