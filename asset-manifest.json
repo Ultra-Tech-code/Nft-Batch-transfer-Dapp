@@ -1,27 +1,27 @@
 {
   "files": {
     "main.css": "/Nft-Batch-transfer-Dapp/static/css/main.8ec920d6.chunk.css",
-    "main.js": "/Nft-Batch-transfer-Dapp/static/js/main.0f841e8d.chunk.js",
-    "main.js.map": "/Nft-Batch-transfer-Dapp/static/js/main.0f841e8d.chunk.js.map",
-    "runtime-main.js": "/Nft-Batch-transfer-Dapp/static/js/runtime-main.883f04cb.js",
-    "runtime-main.js.map": "/Nft-Batch-transfer-Dapp/static/js/runtime-main.883f04cb.js.map",
-    "static/css/2.e1c75b67.chunk.css": "/Nft-Batch-transfer-Dapp/static/css/2.e1c75b67.chunk.css",
-    "static/js/2.47af2648.chunk.js": "/Nft-Batch-transfer-Dapp/static/js/2.47af2648.chunk.js",
-    "static/js/2.47af2648.chunk.js.map": "/Nft-Batch-transfer-Dapp/static/js/2.47af2648.chunk.js.map",
-    "static/js/3.46770490.chunk.js": "/Nft-Batch-transfer-Dapp/static/js/3.46770490.chunk.js",
-    "static/js/3.46770490.chunk.js.map": "/Nft-Batch-transfer-Dapp/static/js/3.46770490.chunk.js.map",
+    "main.js": "/Nft-Batch-transfer-Dapp/static/js/main.6ca29e20.chunk.js",
+    "main.js.map": "/Nft-Batch-transfer-Dapp/static/js/main.6ca29e20.chunk.js.map",
+    "runtime-main.js": "/Nft-Batch-transfer-Dapp/static/js/runtime-main.50082436.js",
+    "runtime-main.js.map": "/Nft-Batch-transfer-Dapp/static/js/runtime-main.50082436.js.map",
+    "static/css/2.095780da.chunk.css": "/Nft-Batch-transfer-Dapp/static/css/2.095780da.chunk.css",
+    "static/js/2.567e1d58.chunk.js": "/Nft-Batch-transfer-Dapp/static/js/2.567e1d58.chunk.js",
+    "static/js/2.567e1d58.chunk.js.map": "/Nft-Batch-transfer-Dapp/static/js/2.567e1d58.chunk.js.map",
+    "static/js/3.3af72894.chunk.js": "/Nft-Batch-transfer-Dapp/static/js/3.3af72894.chunk.js",
+    "static/js/3.3af72894.chunk.js.map": "/Nft-Batch-transfer-Dapp/static/js/3.3af72894.chunk.js.map",
     "index.html": "/Nft-Batch-transfer-Dapp/index.html",
-    "static/css/2.e1c75b67.chunk.css.map": "/Nft-Batch-transfer-Dapp/static/css/2.e1c75b67.chunk.css.map",
+    "static/css/2.095780da.chunk.css.map": "/Nft-Batch-transfer-Dapp/static/css/2.095780da.chunk.css.map",
     "static/css/main.8ec920d6.chunk.css.map": "/Nft-Batch-transfer-Dapp/static/css/main.8ec920d6.chunk.css.map",
-    "static/js/2.47af2648.chunk.js.LICENSE.txt": "/Nft-Batch-transfer-Dapp/static/js/2.47af2648.chunk.js.LICENSE.txt",
+    "static/js/2.567e1d58.chunk.js.LICENSE.txt": "/Nft-Batch-transfer-Dapp/static/js/2.567e1d58.chunk.js.LICENSE.txt",
     "static/media/bootstrap-icons.css": "/Nft-Batch-transfer-Dapp/static/media/bootstrap-icons.ea98e12d.woff2",
     "static/media/logo.6ce24c58.svg": "/Nft-Batch-transfer-Dapp/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.883f04cb.js",
-    "static/css/2.e1c75b67.chunk.css",
-    "static/js/2.47af2648.chunk.js",
+    "static/js/runtime-main.50082436.js",
+    "static/css/2.095780da.chunk.css",
+    "static/js/2.567e1d58.chunk.js",
     "static/css/main.8ec920d6.chunk.css",
-    "static/js/main.0f841e8d.chunk.js"
+    "static/js/main.6ca29e20.chunk.js"
   ]
 }
