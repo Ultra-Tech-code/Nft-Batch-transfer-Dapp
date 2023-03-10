@@ -65,13 +65,12 @@ useEffect(() => {
       await performActions(async (kit) => {
           const {defaultAccount} = kit;
           await  erc271Contract.methods.setApprovalForAll( BatchTransferAddress?.BatchTransfer, true).send({from: defaultAccount});
-          toast(<NotificationSuccess text="Approval Successfull...." />);
+        toast(<NotificationSuccess text="Approval Successfull...." />);
       });
   } catch (e) {
     toast(<NotificationError text="OOps, Approval Failed." />);
       console.log({e});
   }
-
 
   }
 
@@ -79,18 +78,19 @@ useEffect(() => {
     try {
       setLoading(true);
       
-      await approve(tokenAddress, performActions)
+     await approve(tokenAddress, performActions)
 
       await batchSend(batchTransferContract, performActions, tokenAddress, nftId, receiver, totalID);
       updateInput()
       //await updateSendStatus(receiver)
     } catch (e) {
-      console.log({ e });
       updateInput()
+      console.log({ e }); 
     } finally {
       setLoading(false);
     }
   };
+
 
   const getTotal = async () => {   
     try {

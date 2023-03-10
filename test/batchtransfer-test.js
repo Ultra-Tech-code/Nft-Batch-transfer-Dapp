@@ -2,7 +2,6 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("BatchTransfer", function () {
-  this.timeout(50000);
 
   let batchTransfer;
   let testNft;
